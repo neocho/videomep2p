@@ -2,27 +2,50 @@ body, html {
     background-image: linear-gradient(110deg, #E8CBC0, #636FA4);
 }
 
-.generated {
-    padding-left: 6vw;
-    text-align: right;
-}
-
-.medium {
-    font-weight: 400;
-}
-
-
-.videos {
-    padding-top: 15vh;
-}
-
 .row {
-    padding-top: 5vw;
-    padding-bottom: 10vw;
+    padding-top: 1vw;
+    padding-bottom: 1vw;
     padding-left: 2vw;
     padding-right: 2vw;
     width: 100vw;
-    min-height: 100vh;
+    min-height: 10vh;
+}
+
+.row-1 { 
+    padding-top: 1vw;
+}
+
+.row-2 {
+    padding-top: 1vw;
+}
+
+.inputs1 {
+    margin-top: 1vw;
+}
+
+.generated {
+    padding-top: 1vh; 
+    padding-left: 6vw;
+}
+
+.header {
+    padding-bottom: 0.5vw;
+}
+
+.medium {
+    font-weight: 500px;
+}
+
+.bottom {
+    padding-top: 1.5vw;
+}
+
+h2 {
+    font-size: 1em;
+}
+
+.videos {
+    padding-top: 15vh;
 }
 
 .textbox {
@@ -45,12 +68,13 @@ body, html {
     border: 2px solid #000000;
     background: transparent;
 
-  }
+}
   
-  .button:hover {
+.button:hover {
     background: #FFFFFF;
-  }
+}
  
+
 
 
 

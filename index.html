@@ -15,7 +15,13 @@
   </head>
   <body>
     <div class = "container-fluid"> 
-        <div class = "row"> 
+        <div class = "row row-1"> 
+            <div class = "header"> 
+                <h1 class = "medium"> VideoMeP2P </h1>
+                <h2 class = "bottom"> Instructions: <br> 1) Click the generate code button. <br> 2) Send the code to a friend to enter in the textbox and call. </h2>  
+            </div>
+        </div> 
+        <div class = "row row-2"> 
             <div class = "inputs1">  
                 <input class = "textbox" type = "text" id = "call-id"> 
                 <input class = "button" type = "button" onClick = "startConnection()" value = "Call" ></input>
@@ -25,7 +31,6 @@
             <div class = "generated">
                 <h1 class = "medium" id = "output-id"> </h1>   
             </div>
-
 
             <div class = "videos"> 
                 <video id = "local" width="600" height="400" autoplay="true" muted="muted" controls></video>
