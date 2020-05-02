@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+   
+    <!-- PeerJS -->
+    <script src="https://cdn.jsdelivr.net/npm/peerjs@0.3.20/dist/peer.min.js"></script>
+    <title> VideoMeP2P </title>
+  </head>
+  <body>
+    <div class = "container-fluid"> 
+        <div class = "row"> 
+            <div class = "inputs1">  
+                <input class = "textbox" type = "text" id = "call-id"> 
+                <input class = "button" type = "button" onClick = "startConnection()" value = "Call" ></input>
+                <input class = "button" type = "button" onClick = "receiveConnection()" value = "Generate Code"></input>
+            </div>
+
+            <div class = "generated">
+                <h1 class = "medium" id = "output-id"> </h1>   
+            </div>
+
+
+            <div class = "videos"> 
+                <video id = "local" width="600" height="400" autoplay="true" muted="muted" controls></video>
+                <video id = "remote" width="600" height="400" autoplay="true" controls></video>
+            </div>   
+        </div>      
+    </div> 
+
+    <script>  
+        var getUserMedia = (function () {
+			if (navigator.getUserMedia) {
+				return navigator.getUserMedia.bind(navigator)
+			}
+			if (navigator.webkitGetUserMedia) {
+				return navigator.webkitGetUserMedia.bind(navigator)
+			}
+			if (navigator.mozGetUserMedia) {
+				return navigator.mozGetUserMedia.bind(navigator)
+			}
+        })();
+
+        function startConnection() {
+            var id = document.getElementById('call-id').value;
+
+            var peer = new Peer(); 
+
+            var constraints = { audio: true, video: { width: 1280, height: 720 } }; 
+
+            getUserMedia(constraints, function(stream) {
+
+                var video = document.querySelector('video#local');
+                video.srcObject = stream;
+                video.onloadedmetadata = function(e) {
+                    video.play();
+                };
+
+                var call = peer.call(id, stream); 
+
+                call.on('stream', function(remoteStream) {
+                    var video = document.querySelector('video#remote');
+                    video.srcObject = remoteStream;
+                    video.onloadedmetadata = function(e) {
+                        video.play();
+                    };
+                });
+            
+                
+
+            }, function(err) { console.log(err.name + ": " + err.message); });
+        }
+
+        function receiveConnection() {
+            var peer = new Peer(); 
+
+            peer.on('open', function(id){
+                console.log(id);
+                document.getElementById('output-id').innerHTML = id;
+            });
+
+            peer.on('call', function(call) {
+
+                var constraints = { audio: true, video: { width: 1280, height: 720 } }; 
+
+                getUserMedia(constraints, function(stream) {
+
+                    call.answer(stream);
+
+                    var video = document.querySelector('video#local');
+                        video.srcObject = stream;
+                        video.onloadedmetadata = function(e) {
+                            video.play();
+                        };
+                    
+
+                    call.on('stream', function(remoteStream){
+                        var video = document.querySelector('video#remote');
+                        video.srcObject = remoteStream;
+                        video.onloadedmetadata = function(e) {
+                            video.play();
+                        };
+                    });
+
+                }, function(err) { console.log(err.name + ": " + err.message); });
+
+            });
+        }
+
+    </script> 
+    
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>
